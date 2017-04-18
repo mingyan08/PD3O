@@ -70,8 +70,7 @@ tic
 time(j) = toc;
 
 figure(h1)
-hold on
-plot(E_PD3O(:), cs{j});
+semilogy(E_PD3O(:), cs{j});
 
 j = 2;
 tic
@@ -80,7 +79,7 @@ time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PDFP(:), cs{j});
+semilogy(E_PDFP(:), cs{j});
 
 j = 3;
 tic
@@ -89,7 +88,7 @@ time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_CV(:), cs{j});
+semilogy(E_CV(:), cs{j});
 
 j = 4;
 obj.gamma   = 1.9 * beta;
@@ -101,7 +100,7 @@ time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PD3O2(:), cs{j});
+semilogy(E_PD3O2(:), cs{j});
 
 j = 5;
 tic
@@ -110,7 +109,7 @@ time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PDFP2(:), cs{j});
+semilogy(E_PDFP2(:), cs{j});
 
 j = 6;
 tic
@@ -119,8 +118,10 @@ time(6) = toc;
 
 figure(h1)
 hold on
-plot(E_CV2(:), cs{j});
+semilogy(E_CV2(:), cs{j});
 legend('PD3O1', 'PDFP1', 'Condat1', 'PD3O2', 'PDFP2', 'Condat2')
+title('Comparison of three methods with different \lambda')
+
 
 figure(h2)
 subplot(2, 2, 1);
@@ -131,7 +132,7 @@ plot(x_PD3O, 'r')
 plot(x_PDFP, 'y')
 hold off
 xlabel('');
-legend('True','Condat','PD3O','PDFP')
+legend('True', 'Condat', 'PD3O', 'PDFP')
 
 subplot(2, 2, 2)
 plot(x_true, 'g+')
@@ -152,7 +153,7 @@ plot(x_PD3O2, 'r')
 plot(x_PDFP2, 'y')
 hold off
 xlabel('');
-legend('True','Condat','PD3O','PDFP')
+legend('True', 'Condat', 'PD3O', 'PDFP')
 
 subplot(2, 2, 4)
 plot(x_true, 'g+')
