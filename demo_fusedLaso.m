@@ -41,7 +41,7 @@ beta        = 1/normest(A*A');
 mu1         = 200;
 mu2         = 20;
 
-cs={'r-','g-','b-','k-','m-','y-'};
+cs={'r-', 'g-', 'b-', 'k-', 'm-', 'y-'};
 
 obj         = PrimalDual;  % using the clas PrimalDual
 %% Define all its functions:
@@ -62,90 +62,105 @@ obj.gamma   = 1.9 * beta;
 obj.lambda  = 0.19/4;
 
 h1  = figure;
-%h2  = figure;
+h2  = figure;
 
-j   = 1;
+j = 1;
 tic
 [x_PD3O, s_PD3O, E_PD3O]  = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'PD3O');
-time(j)=toc;
+time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PD3O(:),cs{j});
+plot(E_PD3O(:), cs{j});
 
-j=2;
+j = 2;
 tic
 [x_PDFP, s_PDFP, E_PDFP]  = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'PDFP');
-time(j)=toc;
+time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PDFP(:),cs{j});
+plot(E_PDFP(:), cs{j});
 
-j=3;
+j = 3;
 tic
 [x_CV, s_CV, E_CV]        = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'CV');
-time(j)=toc;
+time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_CV(:),cs{j});
+plot(E_CV(:), cs{j});
 
-j=4;
+j = 4;
 obj.gamma   = 1.9 * beta;
 obj.lambda  = 1/4;
 
 tic
 [x_PD3O2, s_PD3O2, E_PD3O2]  = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'PD3O');
-time(j)=toc;
+time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PD3O2(:),cs{j});
+plot(E_PD3O2(:), cs{j});
 
-j=5;
+j = 5;
 tic
 [x_PDFP2, s_PDFP2, E_PDFP2]  = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'PDFP');
-time(j)=toc;
+time(j) = toc;
 
 figure(h1)
 hold on
-plot(E_PDFP2(:),cs{j});
+plot(E_PDFP2(:), cs{j});
 
-j=6;
+j = 6;
 tic
 [x_CV2, s_CV2, E_CV2]        = obj.minimize(zeros(n,1), zeros(n-1,1), 1500, 'CV');
-time(6)=toc;
+time(6) = toc;
 
 figure(h1)
 hold on
-plot(E_CV2(:),cs{j});
-legend('PD3O1','PDFP1','Condat1','PD3O2','PDFP2','Condat2')
+plot(E_CV2(:), cs{j});
+legend('PD3O1', 'PDFP1', 'Condat1', 'PD3O2', 'PDFP2', 'Condat2')
 
+figure(h2)
+subplot(2, 2, 1);
+plot(x_true, 'g+')
+hold on 
+plot(x_CV, 'b')
+plot(x_PD3O, 'r')
+plot(x_PDFP, 'y')
+hold off
+xlabel('');
+legend('True','Condat','PD3O','PDFP')
 
-figure
+subplot(2, 2, 2)
+plot(x_true, 'g+')
+hold on 
+plot(x_CV, 'b')
+plot(x_PD3O, 'r')
+plot(x_PDFP, 'y')
+hold off
+xlabel('');
+legend('True', 'Condat', 'PD3O', 'PDFP')
+axis([3000, 5250, -4, 4])
+
+subplot(2, 2, 3);
 plot(x_true, 'g+')
 hold on 
 plot(x_CV2, 'b')
 plot(x_PD3O2, 'r')
 plot(x_PDFP2, 'y')
-%t=0:n;
-%plot(t,0*t,'k')
 hold off
 xlabel('');
 legend('True','Condat','PD3O','PDFP')
 
-
-figure
-plot(x_true,'g+')
+subplot(2, 2, 4)
+plot(x_true, 'g+')
 hold on 
 plot(x_CV2, 'b')
 plot(x_PD3O2, 'r')
 plot(x_PDFP2, 'y')
-%t=0:n;
-%plot(t,0*t,'k')
 hold off
 xlabel('');
-legend('True','Condat','PD3O','PDFP')
-axis([3000,5250,-4,4])
-
+legend('True', 'Condat', 'PD3O', 'PDFP')
+axis([3000, 5250, -4, 4])

@@ -23,8 +23,8 @@ classdef PrimalDual
       myH       =  @(y)   0;            % proximable fcn     H: y --> H(y)
       myA       =  @(x)   0;            % linear operator    A: x --> A(x)
       myGradF   =  @(x)   0;            % gradient of F      gradF: x    --> grad(F)(x)
-      myProxG   =  @(x,t) 0;            % prox of G          proxG: x,t  --> prox(t.G)(x)
-      myProxH   =  @(y,t) 0;            % prox of H          proxH: y,t  --> prox(t.H)(y)
+      myProxG   =  @(x,t) x;            % prox of G          proxG: x,t  --> prox(t.G)(x)
+      myProxH   =  @(y,t) y;            % prox of H          proxH: y,t  --> prox(t.H)(y)
       myAdjA    =  @(y)   0;            % adjoint of A       adjA:  y    --> A'*(y)
    end
    methods
@@ -60,7 +60,7 @@ classdef PrimalDual
                    case 'PDFP'  % Primal Dual Fixed Point 
                        x_bar    = this.myProxG(x - this.gamma * gradF - this.lambda * this.myAdjA(s), this.gamma);
                    otherwise
-                       warning('Unexpected Method, Please choose from PDFP, PD3O, and CP ')
+                       warning('Unexpected Method, Please choose from PDFP, PD3O, and CP')
                end
                E(i)     = this.E(x);
            end
