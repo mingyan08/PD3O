@@ -18,7 +18,7 @@
 
 clear
 clc;
-addpath('fcns')  
+addpath('fcns','data')  
 r   = 500;  
 n   = 10000;    % The data matrix is of size r x n
 % ---------------------- Generate random data ----------------------

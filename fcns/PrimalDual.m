@@ -33,7 +33,7 @@ classdef PrimalDual
            s = this.myF(x) + this.myG(x) + this.myH(this.myA(x));
        end
        
-       function [x, s, E] = minimize(this, x, s, iter, method)       
+       function [x, s, E, out] = minimize(this, x, s, iter, method, x_min, type)       
            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
            % s^+ = (I - Prox_{gamma/lambda H})(s + A * x_bar)
            % x^+ = Prox_{gamma G}(x - gamma GradF - lambda A' * s^+)
@@ -45,6 +45,27 @@ classdef PrimalDual
            E     = zeros(iter, 1);
            gradF = this.myGradF(x);
            mu    = this.gamma/this.lambda;
+           
+           if (~exist('iter', 'var') || isempty(iter))
+               iter = 100;
+           end;
+           if (~exist('method', 'var') || isempty(method))
+               method = 'PD3O';
+           end;           
+           compare = 1;
+           if nargin <= 5
+               x_min = [];
+               type = [];
+           end
+           if (~exist('x_min', 'var') || isempty(x_min))
+               compare = 0;
+           end;
+           if exist('x_min', 'var') || ~isempty(type)
+               if type == 1;
+                   out.LS = zeros(iter,1);
+               end
+           end
+           
            for i = 1:iter
                x0       = x;
                xh       = x - this.gamma * gradF;  % x - \gamma \nabla F(x)
@@ -60,9 +81,15 @@ classdef PrimalDual
                    case 'PDFP'  % Primal Dual Fixed Point 
                        x_bar    = this.myProxG(x - this.gamma * gradF - this.lambda * this.myAdjA(s), this.gamma);
                    otherwise
-                       warning('Unexpected Method, Please choose from PDFP, PD3O, and CP')
+                       warning('Unexpected Method, Please choose from PDFP, PD3O, and CP ')
                end
                E(i)     = this.E(x);
+               if compare 
+                   switch type 
+                       case 1
+                           out.LS(i) = (x - x_min)' * (x - x_min);
+                   end
+               end
            end
        end
    end
