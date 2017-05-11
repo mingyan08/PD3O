@@ -18,17 +18,17 @@
 
 clear
 clc;
-
+addpath('fcns')  
 r   = 500;  
 n   = 10000;    % The data matrix is of size r x n
 % ---------------------- Generate random data ----------------------
 % for reproducibility
 randNum     = 1;
-randn('state',(randNum - 1) * 3 + 1);
+rng((randNum - 1) * 3 + 1, 'v5normal');
 A           = randn(r, n);                       % the data matrix
 x_true      = myrand(n, 0.005, 50);               % sparse varibles values
 %the sparsity in both x_true and their successive differences of x_true.
-randn('state',(randNum - 1) * 3 + 3);
+rng((randNum - 1) * 3 + 3, 'v5normal');
 noise       = randn(r,1);                       % noise       
 a           = A * x_true + 0.01 * noise;        % the response
 nOnes       = ones(n, 1);
