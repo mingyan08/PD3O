@@ -1,9 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   CT Reconstruction Problems 
 %
-%   min    1/2 || A x - a||^2 + mu1 sum_i |x_{i+1}-x_i|+mu2 ||x||_1.   (1)
-% x in R^n 
-%
 %  F(x) = 1/2||Ax-a||^2;  G = iota_C;  H(x) = mu ||.||_12 (TV); 
 %  B is the discret TV using the finite difference scheme with the periodic
 %  condition

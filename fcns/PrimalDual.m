@@ -87,7 +87,7 @@ classdef PrimalDual
                if compare 
                    switch type 
                        case 1
-                           out.LS(i) = (x - x_min)' * (x - x_min);
+                           out.LS(i) = norm(x - x_min, 'fro');
                    end
                end
            end

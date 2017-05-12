@@ -1,10 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   CT Reconstruction Problems 
-%
-%   min    1/2 || A x - a||^2 + mu1 sum_i |x_{i+1}-x_i|+mu2 ||x||_1.   (1)
-% x in R^n 
-%
 %  F(x) = 1/2||Ax-a||^2;  G = iota_C;  H(x) = mu ||.||_12 (TV); 
+%
 %  B is the discret TV using the finite difference scheme with the periodic
 %  condition
 %
@@ -166,4 +163,4 @@ h_legend = legend({'PD3O-$\lambda_1$','PDFP-$\lambda_1$','Condat-Vu-$\lambda_1$'
 set(h_legend,'FontSize',10);
 xlabel('iteration','FontSize',20)
 ylabel('$\frac{f-f^*}{f^*}$','Interpreter','LaTex','FontSize',20);
-myprint('CT_2',h1)
+myprint('output/CT_2',h1)
