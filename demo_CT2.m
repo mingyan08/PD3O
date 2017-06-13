@@ -68,14 +68,17 @@ beta    = 1/normest(A*A');
 %% Define the parameters 
 obj.gamma   = 1.9*beta;
 obj.lambda  = 0.05/8;
+obj.input.iter  = 1000;
+obj.input.x     = x0;
+obj.input.s     = zeros(2*MN,1);
+
 
 E_min = 1.300790966333291e+04;
-iter    = 1000;
 
 h1  = figure;
 j   = 1;
 tic
-[x_PD3O, s_PD3O, E_PD3O]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PD3O');
+[x_PD3O, s_PD3O, E_PD3O]  = obj.minimize('PD3O', 0);
 time(j)=toc;
 
 figure(h1)
@@ -83,7 +86,7 @@ semilogy(E_PD3O(:)./E_min-1,cs{j});
 
 j=2;
 tic
-[x_PDFP, s_PDFP, E_PDFP]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PDFP');
+[x_PDFP, s_PDFP, E_PDFP]  = obj.minimize('PDFP', 0);
 time(j)=toc;
 
 figure(h1)
@@ -92,7 +95,7 @@ semilogy(E_PDFP(:)./E_min-1,cs{j});
 
 j=3;
 tic
-[x_CV, s_CV, E_CV]        = obj.minimize(x0, zeros(2*MN,1), iter, 'CV');
+[x_CV, s_CV, E_CV]        = obj.minimize('CV', 0);
 time(j)=toc;
 
 figure(h1)
@@ -104,7 +107,7 @@ j=4;
 obj.lambda  = 0.5/8;
 
 tic
-[x_PD3O2, s_PD3O2, E_PD3O2]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PD3O');
+[x_PD3O2, s_PD3O2, E_PD3O2]  = obj.minimize('PD3O', 0);
 time(j)=toc;
 
 figure(h1)
@@ -113,7 +116,7 @@ semilogy(E_PD3O2(:)./E_min-1,cs{j});
 
 j=5;
 tic
-[x_PDFP2, s_PDFP2, E_PDFP2]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PDFP');
+[x_PDFP2, s_PDFP2, E_PDFP2]  = obj.minimize('PDFP', 0);
 time(j)=toc;
 
 figure(h1)
@@ -122,7 +125,7 @@ semilogy(E_PDFP2(:)./E_min-1,cs{j});
 
 j=6;
 tic
-[x_CV2, s_CV2, E_CV2]        = obj.minimize(x0, zeros(2*MN,1), iter, 'CV');
+[x_CV2, s_CV2, E_CV2]        = obj.minimize('CV', 0);
 time(j)=toc;
 
 figure(h1)
@@ -134,7 +137,7 @@ j=7;
 obj.lambda  = 1/8;
 
 tic
-[x_PD3O3, s_PD3O3, E_PD3O3]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PD3O');
+[x_PD3O3, s_PD3O3, E_PD3O3]  = obj.minimize('PD3O', 0);
 time(j)=toc;
 
 figure(h1)
@@ -143,7 +146,7 @@ semilogy(E_PD3O3(:)./E_min-1,cs{j});
 
 j=8;
 tic
-[x_PDFP3, s_PDFP3, E_PDFP3]  = obj.minimize(x0, zeros(2*MN,1), iter, 'PDFP');
+[x_PDFP3, s_PDFP3, E_PDFP3]  = obj.minimize('PDFP', 0);
 time(j)=toc;
 
 figure(h1)
@@ -152,7 +155,7 @@ semilogy(E_PDFP3(:)./E_min-1,cs{j});
 
 j=9;
 tic
-[x_CV3, s_CV3, E_CV3]        = obj.minimize(x0, zeros(2*MN,1), iter, 'CV');
+[x_CV3, s_CV3, E_CV3]        = obj.minimize('CV', 0);
 time(j)=toc;
 
 figure(h1)
@@ -163,4 +166,4 @@ h_legend = legend({'PD3O-$\lambda_1$','PDFP-$\lambda_1$','Condat-Vu-$\lambda_1$'
 set(h_legend,'FontSize',10);
 xlabel('iteration','FontSize',20)
 ylabel('$\frac{f-f^*}{f^*}$','Interpreter','LaTex','FontSize',20);
-myprint('output/CT_2',h1)
+myprint('output/CT_energy_2',h1)

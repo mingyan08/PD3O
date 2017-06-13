@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function demo_NIDS
     close all
-    clear
+    clear 
     clc;
 
     global n m p M y_ori lam
@@ -61,191 +61,117 @@ function demo_NIDS
     obj.myProxG    = @(x,t) feval(@funProxR, x, t);
     obj.myProxH    = @(y, t) zeros(size(y));
     obj.myAdjA     = @(y) W' * y;
+    obj.myHA       = @(y) 0;
 
     %% Define the parameters 
     obj.gamma   = 1;                % two parameters for the primal-dual algorithms
     obj.lambda  = 0.5 * lambda_max;              % we will choose different gammas in this example
 
-    cs={'r--','b--','k--','r-','b-','k-','r-.','b-.','k-.'};
-
     %% Define the parameters 
-    iter    = 10000;                  % the number of iterations
+    obj.input.iter  = 10000;                  % the number of iterations
+    obj.input.x     = x0;
+    obj.input.s     = x0;
+    obj.input.x_min = x_star;
+    load x_PD3O_NIDS.mat
+    obj.input.s_min = s_PD3O;
 
     %% Run the primal-dual codes
-    h1  = figure;
-    legend_text = {};
     % PD3O %%%
     j   = 1;
     tic
-    [x_PD3O, s_PD3O, E_PD3O, out_PD3O]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O, s_PD3O, E_PD3O, out_PD3O]  = obj.minimize('PD3O', 1);
     time(j) = toc;
 
-    figure(h1)
-    semilogy(out_PD3O.LS(:)/x_star_norm,cs{j});
-    ylim([1e-4,1])
-    legend_text(end+1) = {'PD3O-$\gamma_1$'};
     % PDFP %%%
     j   = 2;
     tic
-    [x_PDFP, s_PDFP, E_PDFP, out_PDFP]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP, s_PDFP, E_PDFP, out_PDFP]  = obj.minimize('PDFP', 1);
     time(j) = toc;
 
-    figure(h1)
-    hold on
-    semilogy(out_PDFP.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_1$'};
     % CV %%%
     j   = 3;
     tic
-    [x_CV, s_CV, E_CV, out_CV]        = obj.minimize(x0, x0, iter, 'CV', x_star, 1);
+    [x_CV, s_CV, E_CV, out_CV]        = obj.minimize('CV', 1);
     time(j) = toc;
 
-    figure(h1)
-    hold on
-    semilogy(out_CV.LS(:)/x_star_norm, cs{j});
-    legend_text(end+1) = {'Condat-Vu-$\gamma_1$'};
     %% choose a different gamma 
     obj.gamma   = 1.5;
     % PD3O %%%
     j   = 4;
     tic
-    [x_PD3O2, s_PD3O2, E_PD3O2, out_PD3O2]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O2, s_PD3O2, E_PD3O2, out_PD3O2]  = obj.minimize('PD3O', 1);
     time(j) = toc;
 
-    figure(h1)
-    hold on
-    semilogy(out_PD3O2.LS(:)/x_star_norm, cs{j});
-    legend_text(end+1) = {'PD3O-$\gamma_2$'};
     % PDFP %%%
     j   = 5;
     tic
-    [x_PDFP2, s_PDFP2, E_PDFP2, out_PDFP2]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP2, s_PDFP2, E_PDFP2, out_PDFP2]  = obj.minimize('PDFP', 1);
     time(j) = toc;
-
-    figure(h1)
-    hold on
-    semilogy(out_PDFP2.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_2$'};
 
     %% choose another gamma 
     obj.gamma   = 2.0;
     % PD3O %%%
     j   = 7;
     tic
-    [x_PD3O3, s_PD3O3, E_PD3O3, out_PD3O3]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O3, s_PD3O3, E_PD3O3, out_PD3O3]  = obj.minimize('PD3O', 1);
     time(j) = toc;
 
-    figure(h1)
-    hold on
-    semilogy(out_PD3O3.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PD3O-$\gamma_3$'};
     % PDFP %%%
     j   = 8;
     tic
-    [x_PDFP3, s_PDFP3, E_PDFP3, out_PDFP3]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP3, s_PDFP3, E_PDFP3, out_PDFP3]  = obj.minimize('PDFP', 1);
     time(j) = toc;
-
-    figure(h1)
-    hold on
-    semilogy(out_PDFP3.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_3$'};
-
-    h_legend = legend(legend_text,'Interpreter','latex');
-    set(h_legend,'FontSize',10);
-    xlabel('iteration','FontSize',20)
-    ylabel('$\frac{\|x-x^*\|}{\|x^*\|}$','Interpreter','LaTex','FontSize',20);
-
-    myprint('output/NIDS_1',h1)   % print the file in .pdf and .eps
 
     %% Run the primal-dual codes with different settings
     obj.gamma   = 1.9;          % two parameters for the primal-dual algorithms
     obj.lambda  = 0.05 * lambda_max;             % we will choose different lambda in this example
 
-    h2  = figure;
-    legend_text = {};
     % PD3O %%%
     j   = 1;
     tic
-    [x_PD3O, s_PD3O, E_PD3O, out_PD3O]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O4, s_PD3O4, E_PD3O4, out_PD3O4]  = obj.minimize('PD3O', 1);
     time2(j) = toc;
 
-    figure(h2)
-    semilogy(out_PD3O.LS(:)/x_star_norm,cs{j});
-    ylim([1e-4,1])
-    legend_text(end+1) = {'PD3O-$\gamma_1$'};
     % PDFP %%%
     j   = 2;
     tic
-    [x_PDFP, s_PDFP, E_PDFP, out_PDFP]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP4, s_PDFP4, E_PDFP4, out_PDFP4]  = obj.minimize('PDFP', 1);
     time2(j) = toc;
 
-    figure(h2)
-    hold on
-    semilogy(out_PDFP.LS(:)/x_star_norm, cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_1$'};
     % CV %%%
     j   = 3;
     tic
-    [x_CV, s_CV, E_CV, out_CV]        = obj.minimize(x0, x0, iter, 'CV', x_star, 1);
+    [x_CV4, s_CV4, E_CV4, out_CV4]        = obj.minimize('CV', 1);
     time2(j) = toc;
-
-    figure(h2)
-    hold on
-    semilogy(out_CV.LS(:)/x_star_norm, cs{j});
-    legend_text(end+1) = {'Condat-Vu-$\gamma_1$'};
     %% choose a different gamma 
     obj.lambda   = 0.5 * lambda_max;
     % PD3O %%%
     j   = 4;
     tic
-    [x_PD3O2, s_PD3O2, E_PD3O2, out_PD3O2]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O5, s_PD3O5, E_PD3O5, out_PD3O5]  = obj.minimize('PD3O', 1);
     time2(j) = toc;
 
-    figure(h2)
-    hold on
-    semilogy(out_PD3O2.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PD3O-$\gamma_2$'};
     % PDFP %%%
     j   = 5;
     tic
-    [x_PDFP2, s_PDFP2, E_PDFP2, out_PDFP2]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP5, s_PDFP5, E_PDFP5, out_PDFP5]  = obj.minimize('PDFP', 1);
     time2(j) = toc;
-
-    figure(h2)
-    hold on
-    semilogy(out_PDFP2.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_2$'};
 
     %% choose another gamma 
     obj.lambda   = 1.0 * lambda_max;
     % PD3O %%%
     j   = 7;
     tic
-    [x_PD3O3, s_PD3O3, E_PD3O3, out_PD3O3]  = obj.minimize(x0, x0, iter, 'PD3O', x_star, 1);
+    [x_PD3O6, s_PD3O6, E_PD3O6, out_PD3O6]  = obj.minimize('PD3O', 1);
     time2(j) = toc;
 
-    figure(h2)
-    hold on
-    semilogy(out_PD3O3.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PD3O-$\gamma_3$'};
     % PDFP %%%
     j   = 8;
     tic
-    [x_PDFP3, s_PDFP3, E_PDFP3, out_PDFP3]  = obj.minimize(x0, x0, iter, 'PDFP', x_star, 1);
+    [x_PDFP6, s_PDFP6, E_PDFP6, out_PDFP6]  = obj.minimize('PDFP', 1);
     time2(j) = toc;
-
-    figure(h2)
-    hold on
-    semilogy(out_PDFP3.LS(:)/x_star_norm,cs{j});
-    legend_text(end+1) = {'PDFP-$\gamma_3$'};
-
-
-    h_legend = legend(legend_text,'Interpreter','latex');
-    set(h_legend,'FontSize',10);
-    xlabel('iteration','FontSize',20)
-    ylabel('$\frac{\|x-x^*\|}{\|x^*\|}$','Interpreter','LaTex','FontSize',20);
-
-    myprint('output/NIDS_2',h2)   % print the file in .pdf and .eps
+    
+    save data_NIDS.mat out_* E_* x_* s_*
 end
 
 function a = funGradS(x)
