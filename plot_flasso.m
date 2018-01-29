@@ -1,20 +1,21 @@
 load output_flasso.mat
 E_min   = min(E_PD3O_min); % computed from 10,000 iterations using PD3O
 addpath('fcns','data','output') 
-plot_res = 'energy';
+%plot_res = 'energy';
 plot_res = 'LS';
-plot_res = 'PD';
+%plot_res = 'PD';
 
 
 switch plot_res 
     case 'energy'
-        cs={'r-','b-','k-','m-','r--','b--','k--','m--','r-.','b-.','k-.','m-.'};
+        cs={'-r','-b<','-ko','-c*','-.r','-.b<','-.ko','-.c*',':r',':b<','-.ks','-.cs'};
         h1  = figure;
         legend_text = {};
 
         j = 1;
         figure(h1)
-        semilogy(E_PD3O(:)./E_min-1,cs{j});
+%        semilogy(E_PD3O(:)./E_min-1,cs{j});
+        semilogy(E_PD3O(:)./E_min-1,cs{j},'LineWidth',6);
         ylim([1e-14,1e3])
         xlim([1,4e3])
         legend_text(end+1) = {'PD3O-$\gamma_1$'};
@@ -22,31 +23,33 @@ switch plot_res
         j = 2;
         figure(h1)
         hold on
-        semilogy(E_PDFP(:)./E_min-1,cs{j});
+%        semilogy(E_PDFP(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_PDFP(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_1$'};
 
         j = 3;
         figure(h1)
         hold on
-        semilogy(E_CV(:)./E_min-1,cs{j});
+%        semilogy(E_CV(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_CV(1:200:end)./E_min-1,cs{j},'LineWidth',1,'MarkerSize',12);        
         legend_text(end+1) = {'Condat-Vu-$\gamma_1$'};
 
         j = 4;
         figure(h1)
         hold on
-        semilogy(E_AFBA(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_AFBA(1:200:4000)./E_min-1,cs{j}, 'LineWidth',1,'MarkerSize',3);
         legend_text(end+1) = {'AFBA-$\gamma_1$'};
 
         j = 5;
         figure(h1)
         hold on
-        semilogy(E_PD3O2(:)./E_min-1,cs{j});
+        semilogy(E_PD3O2(:)./E_min-1,cs{j},'LineWidth',3);
         legend_text(end+1) = {'PD3O-$\gamma_2$'};
 
         j = 6;
         figure(h1)
         hold on
-        semilogy(E_PDFP2(:)./E_min-1,cs{j});
+        semilogy([1:200:4000], E_PDFP2(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_2$'};
 
 %         j = 7;
@@ -65,13 +68,13 @@ switch plot_res
         j = 9;
         figure(h1)
         hold on
-        semilogy(E_PD3O3(:)./E_min-1,cs{j});
+        semilogy(E_PD3O3(:)./E_min-1,cs{j},'LineWidth',3);
         legend_text(end+1) = {'PD3O-$\gamma_3$'};
 
         j = 10;
         figure(h1)
         hold on
-        semilogy(E_PDFP3(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_PDFP3(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_3$'};
 
 %         j = 11;
@@ -97,7 +100,7 @@ switch plot_res
         legend_text = {};
         j = 1;
         figure(h2)
-        semilogy(E_PD3O4(:)./E_min-1,cs{j});
+        semilogy(E_PD3O4(:)./E_min-1,cs{j},'LineWidth',6);
         ylim([1e-14,1e3])
         xlim([1,4e3])
         legend_text(end+1) = {'PD3O-$\lambda_1$'};
@@ -105,31 +108,31 @@ switch plot_res
         j = 2;
         figure(h2)
         hold on
-        semilogy(E_PDFP4(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_PDFP4(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_1$'};
 
         j = 3;
         figure(h2)
         hold on
-        semilogy(E_CV4(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_CV4(1:200:end)./E_min-1,cs{j},'LineWidth',1,'MarkerSize',12);
         legend_text(end+1) = {'Condat-Vu-$\lambda_1$'};
 
         j = 4;
         figure(h2)
         hold on
-        semilogy(E_AFBA4(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_AFBA4(1:200:end)./E_min-1,cs{j},'LineWidth',1,'MarkerSize',3);
         legend_text(end+1) = {'AFBA-$\lambda_1$'};
         
         j = 5;
         figure(h2)
         hold on
-        semilogy(E_PD3O5(:)./E_min-1,cs{j});
+        semilogy(E_PD3O5(:)./E_min-1,cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\lambda_2$'};
 
         j = 6;
         figure(h2)
         hold on
-        semilogy(E_PDFP5(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_PDFP5(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_2$'};
 
 %         j = 7;
@@ -147,13 +150,13 @@ switch plot_res
         j = 9;
         figure(h2)
         hold on
-        semilogy(E_PD3O6(:)./E_min-1,cs{j});
+        semilogy(E_PD3O6(:)./E_min-1,cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\lambda_3$'};
 
         j = 10;
         figure(h2)
         hold on
-        semilogy(E_PDFP6(:)./E_min-1,cs{j});
+        semilogy([1:200:4000],E_PDFP6(1:200:end)./E_min-1,cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_3$'};
 
 %         j = 11;
@@ -177,13 +180,13 @@ switch plot_res
         myprint('output/flasso_energy_2',h1)   % print the file in .PDf and .eps        
         
     case 'LS'
-        cs={'r-','b-','k-','m-','r--','b--','k--','m--','r-.','b-.','k-.','m-.'};
+        cs={'-r','-b<','-ko','-c*','-.r','-.b<','-.ko','-.c*',':r',':b<','-.ks','-.cs'};
         h1  = figure;
         legend_text = {};
 
         j = 1;
         figure(h1)
-        semilogy(out_PD3O.LS(:),cs{j});
+        semilogy(out_PD3O.LS(:),cs{j},'LineWidth',6);
         ylim([1e-12,1e3])
         xlim([1,4e3])
         legend_text(end+1) = {'PD3O-$\gamma_1$'};
@@ -191,49 +194,49 @@ switch plot_res
         j = 2;
         figure(h1)
         hold on
-        semilogy(out_PDFP.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_1$'};
 
         j = 3;
         figure(h1)
         hold on
-        semilogy(out_CV.LS(:),cs{j});
+        semilogy([1:200:4000],out_CV.LS(1:200:end),cs{j},'LineWidth',1,'MarkerSize',12);
         legend_text(end+1) = {'Condat-Vu-$\gamma_1$'};
 
         j = 4;
         figure(h1)
         hold on
-        semilogy(out_AFBA.LS(:),cs{j});
+        semilogy([1:200:4000],out_AFBA.LS(1:200:end),cs{j},'LineWidth',1,'MarkerSize',3);
         legend_text(end+1) = {'AFBA-$\gamma_1$'};
         
         j = 5;
         figure(h1)
         hold on
-        semilogy(out_PD3O2.LS(:),cs{j});
+        semilogy(out_PD3O2.LS(:),cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\gamma_2$'};
 
         j = 6;
         figure(h1)
         hold on
-        semilogy(out_PDFP2.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP2.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_2$'};
 
         j = 9;
         figure(h1)
         hold on
-        semilogy(out_PD3O3.LS(:),cs{j});
+        semilogy(out_PD3O3.LS(:),cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\gamma_3$'};
 
         j = 10;
         figure(h1)
         hold on
-        semilogy(out_PDFP3.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP3.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\gamma_3$'};
 
         h_legend = legend(legend_text,'Interpreter','latex');
         set(h_legend,'FontSize',10);
         xlabel('iteration','FontSize',20)
-        ylabel('$\|x-x^*\|^2$','Interpreter','LaTex','FontSize',20);
+        ylabel('$\|\mathbf{x}-\mathbf{x}^*\|^2$','Interpreter','LaTex','FontSize',20);
 
         myprint('output/flasso_LS_1',h1)   % print the file in .PDf and .eps        
         
@@ -242,7 +245,7 @@ switch plot_res
 
         j = 1;
         figure(h2)
-        semilogy(out_PD3O4.LS(:),cs{j});
+        semilogy(out_PD3O4.LS(:),cs{j},'LineWidth',6);
         ylim([1e-12,1e3])
         xlim([1,4e3])
         legend_text(end+1) = {'PD3O-$\lambda_1$'};
@@ -250,49 +253,49 @@ switch plot_res
         j = 2;
         figure(h2)
         hold on
-        semilogy(out_PDFP4.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP4.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_1$'};
 
         j = 3;
         figure(h2)
         hold on
-        semilogy(out_CV4.LS(:),cs{j});
+        semilogy([1:200:4000],out_CV4.LS(1:200:end),cs{j},'LineWidth',1,'MarkerSize',12);
         legend_text(end+1) = {'Condat-Vu-$\lambda_1$'};
 
         j = 4;
         figure(h2)
         hold on
-        semilogy(out_AFBA4.LS(:),cs{j});
+        semilogy([1:200:4000],out_AFBA4.LS(1:200:end),cs{j},'LineWidth',1,'MarkerSize',3);
         legend_text(end+1) = {'AFBA-$\lambda_1$'};
         
         j = 5;
         figure(h2)
         hold on
-        semilogy(out_PD3O5.LS(:),cs{j});
+        semilogy(out_PD3O5.LS(:),cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\lambda_2$'};
 
         j = 6;
         figure(h2)
         hold on
-        semilogy(out_PDFP5.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP5.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_2$'};
 
         j = 9;
         figure(h2)
         hold on
-        semilogy(out_PD3O6.LS(:),cs{j});
+        semilogy(out_PD3O6.LS(:),cs{j},'LineWidth',6);
         legend_text(end+1) = {'PD3O-$\lambda_3$'};
 
         j = 10;
         figure(h2)
         hold on
-        semilogy(out_PDFP6.LS(:),cs{j});
+        semilogy([1:200:4000],out_PDFP6.LS(1:200:end),cs{j},'LineWidth',2,'MarkerSize',8);
         legend_text(end+1) = {'PDFP-$\lambda_3$'};
 
         h_legend = legend(legend_text,'Interpreter','latex');
         set(h_legend,'FontSize',10);
         xlabel('iteration','FontSize',20)
-        ylabel('$\|x-x^*\|^2$','Interpreter','LaTex','FontSize',20);
+        ylabel('$\|\mathbf{x}-\mathbf{x}^*\|^2$','Interpreter','LaTex','FontSize',20);
 
         myprint('output/flasso_LS_2',h1)   % print the file in .PDf and .eps               
     case 'PD'
