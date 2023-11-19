@@ -84,7 +84,8 @@ classdef PrimalDual
            E     = zeros(iter, 1);
            gradF = this.myGradF(x);
            mu    = this.gamma/this.lambda;
-           
+           out   = struct();
+
            compare = 1;
            if (~exist('x_min', 'var') || isempty(x_min))
                compare = 0;
